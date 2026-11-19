@@ -10,12 +10,14 @@ from typing import Sequence, TextIO
 import cv2
 import numpy as np
 
-from display import show_images
-from processing import detect_edges, equalize, remove_noise, to_grayscale
+from image_enhancement.display import show_images
+from image_enhancement.processing import detect_edges, equalize, remove_noise, to_grayscale
 
 
 SUPPORTED_EXTENSIONS = {".bmp", ".jpeg", ".jpg", ".png", ".tif", ".tiff", ".webp"}
-OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+PROJECT_DIR = Path(__file__).resolve().parent
+INPUT_DIR = PROJECT_DIR / "images" / "input"
+OUTPUT_DIR = PROJECT_DIR / "images" / "output"
 
 
 def report(message: str, stream: TextIO = sys.stdout) -> None:
@@ -40,6 +42,7 @@ def select_image() -> Path | None:
     try:
         selected = filedialog.askopenfilename(
             title="Select an image",
+            initialdir=str(INPUT_DIR),
             filetypes=[
                 ("Image files", "*.png *.jpg *.jpeg *.bmp *.tif *.tiff *.webp"),
                 ("All files", "*.*"),
